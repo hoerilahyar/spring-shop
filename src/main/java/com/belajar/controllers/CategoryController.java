@@ -1,9 +1,8 @@
 package com.belajar.controllers;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,20 +19,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.belajar.dto.ResponseHandler;
-import com.belajar.models.entities.Product;
-import com.belajar.services.ProductServices;
+import com.belajar.models.entities.Category;
+import com.belajar.services.CategoryServices;
 
 @RestController
-@RequestMapping("/api/products")
-public class ProductController {
+@RequestMapping("/api/categories")
+public class CategoryController {
     
     @Autowired
-    private ProductServices productServices;
+    private CategoryServices categoryServices;
     
     @GetMapping
     public ResponseEntity<Object> findAll(){
         try {
-            List<Product> result = productServices.findAll();
+            List<Category> result = categoryServices.findAll();
             return ResponseHandler.generateResponse(HttpStatus.OK, result,null);
         } catch (Exception e) {
             return ResponseHandler.generateResponse(null, HttpStatus.MULTI_STATUS,e.getMessage());
@@ -41,7 +40,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> create(@Valid @RequestBody Product product, Errors errors){
+    public ResponseEntity<Object> create(@Valid @RequestBody Category category, Errors errors){
 
         if(errors.hasErrors()){
             ArrayList<String> err = new ArrayList<>();
@@ -53,7 +52,7 @@ public class ProductController {
         }
 
         try {
-            List<Product> result = productServices.save(product);
+            List<Category> result = categoryServices.save(category);
             if (result != null){
                 return ResponseHandler.generateResponse(HttpStatus.OK, result,null);
             }else{
@@ -68,7 +67,7 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> findByID(@PathVariable("id") Long id){
         try {
-            Product result = productServices.findOne(id);
+            Category result = categoryServices.findOne(id);
             return ResponseHandler.generateResponse(HttpStatus.OK, result,null);
         } catch (Exception e) {
             return ResponseHandler.generateResponse(null, HttpStatus.MULTI_STATUS,e.getMessage());
@@ -76,7 +75,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> update(@PathVariable("id") Long id, @Valid @RequestBody Product product, Errors errors){
+    public ResponseEntity<Object> update(@PathVariable("id") Long id, @Valid @RequestBody Category category, Errors errors){
         
         if(errors.hasErrors()){
             ArrayList<String> err = new ArrayList<>();
@@ -88,9 +87,9 @@ public class ProductController {
         }
 
         try {
-            if (productServices.findOne(id) != null){
-                product.setId(id);
-                List<Product> result = productServices.save(product);
+            if (categoryServices.findOne(id) != null){
+                category.setId(id);
+                List<Category> result = categoryServices.save(category);
                 if (result != null){
                     return ResponseHandler.generateResponse(HttpStatus.OK, result,null);
                 }else{
@@ -107,8 +106,9 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> removeOne(@PathVariable("id") Long id){
+        
         try {
-            if (productServices.removeOne(id)){
+            if (categoryServices.removeOne(id)){
                 return ResponseHandler.generateResponse(HttpStatus.OK, null, String.format("ID %d deleted",id));
             } else {
                 return ResponseHandler.generateResponse(HttpStatus.NOT_FOUND, null, String.format("ID %d not found",id));

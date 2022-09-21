@@ -1,7 +1,10 @@
 package com.belajar.models.entities;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Table(name = "tbl_orders")
@@ -18,14 +23,30 @@ public class Order implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Value("${qty:1.0}")
-    private Double qty;
+    @Value("1")
+    private double qty;
 
-    @Value("${total:0.0}")
-    private Double total;
+    @Value("0")
+    private double total;
+    
+    @CreatedDate
+    @Column(name = "created_at")
+    private Date createdAt;
+
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    private Date updatedAt;
 
     @OneToMany(mappedBy = "order")
-    private Product products;
+    private Set<Product> products;
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
 
     public Long getId() {
         return id;
@@ -35,30 +56,21 @@ public class Order implements Serializable{
         this.id = id;
     }
 
-    public Double getQty() {
+    public double getQty() {
         return qty;
     }
 
-    public void setQty(Double qty) {
+    public void setQty(double qty) {
         this.qty = qty;
     }
 
-    public Double getTotal() {
+    public double getTotal() {
         return total;
     }
 
-    public void setTotal(Double total) {
+    public void setTotal(double total) {
         this.total = total;
     }
-
-    public Product getProducts() {
-        return products;
-    }
-
-    public void setProducts(Product products) {
-        this.products = products;
-    }
-    
 
     
 }

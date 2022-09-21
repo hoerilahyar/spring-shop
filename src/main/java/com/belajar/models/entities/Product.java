@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -36,8 +37,8 @@ public class Product implements Serializable{
     @Column(length = 100)
     private String name;
 
-    @NotEmpty(message = "price is required!")
-    private Double price;
+    @NotNull(message = "price is required!")
+    private double price;
     
     @CreatedDate
     @Column(name = "created_at")
@@ -79,7 +80,7 @@ public class Product implements Serializable{
 
     public Product() {}
 
-    public Product(Long id, String name, Double price) {
+    public Product(Long id, String name, double price) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -101,11 +102,11 @@ public class Product implements Serializable{
         this.name = name;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
     

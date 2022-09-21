@@ -1,6 +1,7 @@
 package com.belajar.models.entities;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -10,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Table(name="tbl_suppliers")
@@ -21,6 +25,14 @@ public class Supplier implements Serializable {
 
     @Column(length = 100,nullable = false,unique = true)
     private String name;
+    
+    @CreatedDate
+    @Column(name = "created_at")
+    private Date createdAt;
+
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    private Date updatedAt;
 
     @ManyToMany(mappedBy = "suppliers")
     private Set<Product> products;
